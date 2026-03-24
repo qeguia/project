@@ -8,5 +8,10 @@ README structure:
 - Usage examples/Quick start
 - Contributing guidelines, license and citation (if applicable)
 
-Reminder: we are using Sphinx for automatic documentation.
-Example of README: [this project](https://github.com/openmm/openmm-torch).
+Things to consider:
+- We are using Sphinx for automatic documentation.
+- Would be good to have several branches and a branch merge
+- Commits from multiple developers, not just one
+- We need to use project versioning
+- Test Driven Development, meaningful tests
+- Example of README: [this project](https://github.com/openmm/openmm-torch).
