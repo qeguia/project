@@ -1,14 +1,13 @@
 name: project
 channels:
-- conda-forge
+  - conda-forge
+
 dependencies:
-- python=3.14.3
-- pandas=3.0.1
-- numpy=2.4.3
-- requests=2.32.5
-- lxml=6.0.2
-- pytest=9.0.2
-- pip
-- eurostat
-- pip:
-    - sphinx
+  - python=3.11
+  - pandas
+  - numpy
+  - requests
+  - pytest
+  - eurostat
+  - sphinx
+  - plotnine
