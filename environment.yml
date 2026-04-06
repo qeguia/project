@@ -10,4 +10,9 @@ dependencies:
   - pytest
   - eurostat
   - sphinx
-  - plotnine
+  - plotnine 
+  - pip
+  - pip:
+    - ineapy
+
+
