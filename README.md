@@ -1,4 +1,4 @@
-# project-name
+# Housing Affordability in Europe
 Computer Programming II and Probability
 
 README structure:
