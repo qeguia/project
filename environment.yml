@@ -4,13 +4,13 @@ channels:
 
 dependencies:
   - python=3.11
-  - pandas
-  - numpy
-  - requests
-  - pytest
-  - eurostat
-  - sphinx
-  - plotnine 
-  - pip
+  - pandas=2.3.3
+  - numpy=2.4.3
+  - requests=2.33.1
+  - pytest=9.0.2
+  - eurostat=1.1.1
+  - sphinx=9.0.4
+  - plotnine=0.15.3 
+  - pip=26.0.1
   - pip:
-    - ineapy
+    - ineapy=0.1.5
