@@ -1,4 +1,4 @@
-# project-name
+# Housing Affordability
 Computer Programming II and Probability
 
 README structure:
