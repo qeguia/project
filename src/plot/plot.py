@@ -4,7 +4,20 @@ from plotnine import (
 )
 
 def plot_spain_vs_eu(df_plot):
-    """Plot Spain vs EU average house price index."""
+    """Create a line plot comparing Spain and the EU average HPI.
+
+    The function generates a line chart with points showing the evolution
+    of the house price index (HPI) over time for Spain and the EU average.
+
+    Args:
+        df_plot: Long-format DataFrame containing at least the columns
+            ``year``, ``hpi``, and ``geo``. The ``geo`` column is expected
+            to include the values 'ES' (Spain) and 'EU Avg'.
+
+    Returns:
+        A plotnine ``ggplot`` object representing the comparison between
+        Spain and the EU average over time.
+    """
     p = (
         ggplot(df_plot, aes(x='year', y='hpi', color='geo'))
         + geom_line(size=1.2)
