@@ -6,23 +6,55 @@ DATASET = "prc_hpi_a"
 
 
 def load_eurostat_data(dataset: str = DATASET) -> pd.DataFrame:
-    """Fetch raw Eurostat house price index data."""
+    """Load raw house price index data from Eurostat.
+
+    Args:
+        dataset: Eurostat dataset code to retrieve. Defaults to the house
+            price index dataset defined in ``DATASET``.
+
+    Returns:
+        A raw pandas DataFrame returned by the Eurostat API, containing
+        the original columns and values without additional cleaning.
+    """
     print(f"Fetching '{dataset}' from Eurostat ...")
     raw = eurostat.get_data_df(dataset)
     return raw
 
 
 def clean_eurostat_data(raw: pd.DataFrame) -> pd.DataFrame:
-    """Basic cleaning and normalization of Eurostat dataframe."""
+    """Clean and standardize the raw Eurostat dataset.
+
+    This function removes columns that are not needed for the analysis
+    and renames the geographic identifier column to a simpler name.
+
+    Args:
+        raw: Raw Eurostat DataFrame as returned by ``load_eurostat_data``.
+
+    Returns:
+        A cleaned DataFrame without the ``freq`` column and with the
+        column ``geo\\TIME_PERIOD`` renamed to ``geo``.
+    """
     df = raw.drop(columns=['freq'])
     df = df.rename(columns={'geo\\TIME_PERIOD': 'geo'})
     return df
 
 
 def prepare_hpi_long(df: pd.DataFrame) -> pd.DataFrame:
-    """
-    Filter to all dwellings, base 2010 average,
-    and reshape from wide to long format.
+    """Filter and reshape Eurostat HPI data into long format.
+
+    The function keeps only observations for total dwellings and for the
+    annual index with base year 2010 average. It then converts the data
+    from wide format, where years are stored as columns, into long format
+    with one row per geographic unit and year.
+
+    Args:
+        df: Cleaned Eurostat DataFrame containing at least the columns
+            ``geo``, ``purchase``, ``unit``, and yearly HPI values.
+
+    Returns:
+        A long-format DataFrame with columns ``geo``, ``year``, and
+        ``hpi``, where ``year`` is numeric and invalid HPI values have
+        been removed.
     """
     df = df[
         (df['purchase'] == 'TOTAL') &
@@ -38,14 +70,35 @@ def prepare_hpi_long(df: pd.DataFrame) -> pd.DataFrame:
 
 
 def load_ine_data(table_id: int = 25173) -> pd.DataFrame:
-    """Fetch raw INE table data."""
+    """Load raw house price index data from the INE API.
+
+    Args:
+        table_id: Identifier of the INE table to retrieve.
+
+    Returns:
+        A pandas DataFrame containing the raw table data returned by the
+        INE API.
+    """
     consultor = INEConsultor()
     data = consultor.get_table_data(id_table=table_id)
     return pd.DataFrame(data)
 
 
 def clean_ine_data(df_ine: pd.DataFrame) -> pd.DataFrame:
-    """Clean INE house price index data."""
+    """Clean and filter the INE house price index dataset.
+
+    This function standardizes the table labels, splits the composite
+    ``name_table`` field into separate descriptive columns, keeps only
+    annual index values, and selects the variables needed for analysis.
+
+    Args:
+        df_ine: Raw INE DataFrame returned by ``load_ine_data``.
+
+    Returns:
+        A cleaned DataFrame containing the columns ``region``,
+        ``dwelling``, ``year``, and ``value``, filtered to annual index
+        observations only.
+    """
     df_ine = df_ine.copy()
 
     df_ine['name_table'] = df_ine['name_table'].str.strip()
