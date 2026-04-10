@@ -1,29 +1,23 @@
-from data_cleaning.cleaning import (
-    load_eurostat_data,
-    clean_eurostat_data,
-    prepare_hpi_long,
-    load_ine_data,
-    clean_ine_data
-)
-from analysis.analysis import build_spain_vs_eu_dataset
-from plot.plot import plot_spain_vs_eu
+import sys
+
+from main_eurostat import main as run_eurostat
+from main_ine import main as run_ine
 
 
 def main():
-    # Eurostat pipeline
-    raw_eurostat = load_eurostat_data()
-    clean_eurostat = clean_eurostat_data(raw_eurostat)
-    eurostat_long = prepare_hpi_long(clean_eurostat)
+    if len(sys.argv) != 2:
+        print("Usage: python main.py [eurostat|ine]")
+        sys.exit(1)
 
-    df_plot = build_spain_vs_eu_dataset(eurostat_long)
-    p = plot_spain_vs_eu(df_plot)
-    print(p)
-    p.show()
+    source = sys.argv[1].lower()
 
-    # INE pipeline
-    raw_ine = load_ine_data()
-    clean_ine = clean_ine_data(raw_ine)
-    print(clean_ine.head())
+    if source == "eurostat":
+        run_eurostat()
+    elif source == "ine":
+        run_ine()
+    else:
+        print("Invalid option. Use 'eurostat' or 'ine'.")
+        sys.exit(1)
 
 
 if __name__ == "__main__":
