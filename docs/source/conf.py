@@ -1,6 +1,6 @@
 import os
 import sys
-sys.path.insert(0, os.path.abspath('../src'))
+sys.path.insert(0, os.path.abspath('../../src'))
 
 # Configuration file for the Sphinx documentation builder.
 #
@@ -10,10 +10,10 @@ sys.path.insert(0, os.path.abspath('../src'))
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
-project = 'project'
-copyright = '2026, Group2'
-author = 'Group2'
-release = '0.1.0'
+project = 'project: housing affordability in europe'
+copyright = '2026, IE University; Paul Chabert, Fernando Cordero, Luis Diez & Qin Eguía'
+author = 'Paul Chabert, Fernando Cordero, Luis Diez & Qin Eguía'
+release = '1.0.0'
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration

@@ -7,4 +7,6 @@ API Reference
    analysis
    cleaning
    plot
-   project_code
+   main
+   main_eurostat
+   main_ine
