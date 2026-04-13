@@ -7,29 +7,23 @@ from main_ine import main as run_ine
 def main():
     """Run the project from the command line.
 
-    This function acts as an entry point for executing different data
-    pipelines based on a command-line argument.
-
-    The user must specify the data source to process:
-
-        - 'eurostat': runs the Eurostat pipeline
-        - 'ine': runs the INE pipeline
-
     Usage:
-        python main.py [eurostat|ine]
+        python main.py [eurostat|ine] [extra options]
 
-    Behavior:
-        - Calls the corresponding pipeline function
-        - Exits with an error message if the input is invalid
-
-    Returns:
-        None
+    Examples:
+        python main.py eurostat
+        python main.py eurostat --country1 ES --country2 PT
+        python main.py ine
     """
-    if len(sys.argv) != 2:
+    if len(sys.argv) < 2:
         print("Usage: python main.py [eurostat|ine]")
         sys.exit(1)
 
     source = sys.argv[1].lower()
+
+    # Remove the selected source from sys.argv before delegating
+    # so that submodules can parse only their own arguments.
+    sys.argv = [sys.argv[0]] + sys.argv[2:]
 
     if source == "eurostat":
         run_eurostat()
