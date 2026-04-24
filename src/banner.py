@@ -2,7 +2,7 @@ import pyfiglet
 
 def print_banner():
     # Get the version from the file
-    version = "v1.1.0"
+    version = "v1.1.1"
     # Create the banner text
     banner = pyfiglet.figlet_format("Housing Affordability " + version, font="small")
 
