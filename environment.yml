@@ -13,4 +13,5 @@ dependencies:
   - plotnine=0.15.3 
   - pip=26.0.1
   - pip:
-    - ineapy=0.1.5
+    - ineapy
+    - pyfiglet
