@@ -2,7 +2,7 @@ import sys
 
 from main_eurostat import main as run_eurostat
 from main_ine import main as run_ine
-
+from banner import print_banner
 
 def main():
     """Run the project from the command line.
