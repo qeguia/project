@@ -49,25 +49,30 @@ sys.modules["plotnine"] = fake_plotnine
 
 
 def test_import_cleaning():
+    """Verify that the cleaning module can be imported without errors."""
     import data_cleaning.cleaning
     assert data_cleaning.cleaning is not None
 
 
 def test_import_analysis():
+    """Verify that the analysis module can be imported without errors."""
     import analysis.analysis
     assert analysis.analysis is not None
 
 
 def test_import_main():
+    """Verify that the main entry-point module can be imported."""
     import main
     assert main is not None
 
 
 def test_import_main_eurostat():
+    """Verify that the Eurostat pipeline module can be imported."""
     import main_eurostat
     assert main_eurostat is not None
 
 
 def test_import_main_ine():
+    """Verify that the INE pipeline module can be imported."""
     import main_ine
     assert main_ine is not None

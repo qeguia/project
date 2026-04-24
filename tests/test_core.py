@@ -45,6 +45,13 @@ from analysis.analysis import (
 
 
 def test_clean_eurostat_data_removes_freq_and_renames_geo():
+    """Verify that Eurostat cleaning removes 'freq' and renames 'geo' column.
+
+    This test checks that:
+        - the 'freq' column is removed
+        - 'geo\\TIME_PERIOD' is renamed to 'geo'
+        - the number of rows remains unchanged
+    """
     raw = pd.DataFrame({
         "freq": ["A", "A"],
         "geo\\TIME_PERIOD": ["ES", "PT"],
@@ -62,6 +69,14 @@ def test_clean_eurostat_data_removes_freq_and_renames_geo():
 
 
 def test_prepare_hpi_long_filters_and_reshapes_data():
+    """Verify filtering and reshaping to long format.
+
+    This test ensures that:
+        - only rows with valid 'purchase' and 'unit' values are kept
+        - data is converted from wide to long format
+        - output columns are ['geo', 'year', 'hpi']
+        - resulting dataset has correct number of rows
+    """
     df = pd.DataFrame({
         "geo": ["ES", "PT", "FR"],
         "purchase": ["TOTAL", "TOTAL", "OTHER"],
@@ -79,6 +94,7 @@ def test_prepare_hpi_long_filters_and_reshapes_data():
 
 
 def test_get_spain_series_returns_only_es():
+    """Check that only Spain ('ES') rows are returned."""
     df_long = pd.DataFrame({
         "geo": ["ES", "PT", "ES"],
         "year": [2020, 2020, 2021],
@@ -92,6 +108,7 @@ def test_get_spain_series_returns_only_es():
 
 
 def test_get_country_series_returns_selected_country():
+    """Verify that the selected country is correctly filtered (case-insensitive)."""
     df_long = pd.DataFrame({
         "geo": ["ES", "PT", "FR"],
         "year": [2020, 2020, 2020],
@@ -105,6 +122,13 @@ def test_get_country_series_returns_selected_country():
 
 
 def test_get_eu_average_computes_mean_by_year():
+    """Ensure EU average is computed correctly per year.
+
+    This test verifies:
+        - only valid country codes are included
+        - mean HPI is correctly calculated
+        - output is labeled as 'EU Avg'
+    """
     df_long = pd.DataFrame({
         "geo": ["ES", "PT", "EU27_2020", "ES", "PT"],
         "year": [2020, 2020, 2020, 2021, 2021],
@@ -124,6 +148,7 @@ def test_get_eu_average_computes_mean_by_year():
 
 
 def test_build_spain_vs_eu_dataset_contains_es_and_eu_avg():
+    """Check that the combined dataset contains both Spain and EU average series."""
     df_long = pd.DataFrame({
         "geo": ["ES", "PT", "ES", "PT"],
         "year": [2020, 2020, 2021, 2021],
@@ -137,6 +162,7 @@ def test_build_spain_vs_eu_dataset_contains_es_and_eu_avg():
 
 
 def test_build_country_comparison_dataset_returns_two_countries():
+    """Verify dataset includes exactly the two selected countries."""
     df_long = pd.DataFrame({
         "geo": ["ES", "PT", "FR", "ES", "PT", "FR"],
         "year": [2020, 2020, 2020, 2021, 2021, 2021],
@@ -150,6 +176,7 @@ def test_build_country_comparison_dataset_returns_two_countries():
 
 
 def test_get_ine_national_series_returns_national_rows_when_present():
+    """Ensure only national-level rows are returned when available."""
     df_ine = pd.DataFrame({
         "region": ["Nacional", "Madrid", "Cataluña"],
         "dwelling": ["Total", "Total", "Total"],
@@ -164,6 +191,7 @@ def test_get_ine_national_series_returns_national_rows_when_present():
 
 
 def test_clean_ine_data_filters_and_selects_needed_columns():
+    """Verify INE data is cleaned, filtered, and reduced to required columns."""
     df_ine = pd.DataFrame({
         "name_table": [
             "Nacional. Media anual. Vivienda total.",

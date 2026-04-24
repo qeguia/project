@@ -43,6 +43,7 @@ from analysis.analysis import (
 
 
 def test_get_country_series_raises_for_missing_country():
+    """Ensure an error is raised when the requested country is not present."""
     df_long = pd.DataFrame({
         "geo": ["ES", "PT"],
         "year": [2020, 2020],
@@ -54,6 +55,7 @@ def test_get_country_series_raises_for_missing_country():
 
 
 def test_build_country_comparison_dataset_raises_for_same_country():
+    """Ensure an error is raised when comparing the same country twice."""
     df_long = pd.DataFrame({
         "geo": ["ES", "PT"],
         "year": [2020, 2020],
@@ -65,6 +67,7 @@ def test_build_country_comparison_dataset_raises_for_same_country():
 
 
 def test_prepare_hpi_long_drops_invalid_hpi_values():
+    """Verify invalid (non-numeric) HPI values are removed during processing."""
     df = pd.DataFrame({
         "geo": ["ES"],
         "purchase": ["TOTAL"],
@@ -81,6 +84,7 @@ def test_prepare_hpi_long_drops_invalid_hpi_values():
 
 
 def test_get_ine_national_series_returns_empty_when_input_empty():
+    """Check that empty input returns an empty DataFrame."""
     df_ine = pd.DataFrame(columns=["region", "dwelling", "year", "value"])
 
     result = get_ine_national_series(df_ine)
@@ -89,6 +93,7 @@ def test_get_ine_national_series_returns_empty_when_input_empty():
 
 
 def test_get_ine_national_series_returns_full_dataset_if_no_national_row():
+    """Ensure all rows are returned if no national-level data exists."""
     df_ine = pd.DataFrame({
         "region": ["Madrid", "Cataluña"],
         "dwelling": ["Total", "Total"],
