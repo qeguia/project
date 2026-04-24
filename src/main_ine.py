@@ -1,4 +1,6 @@
 from data_cleaning.cleaning import load_ine_data, clean_ine_data
+from plotnine import ggplot, aes, geom_bar, theme, element_text, labs, position_dodge
+import pandas as pd
 
 
 def main():
@@ -18,11 +20,20 @@ def main():
     raw_ine = load_ine_data()
     clean_ine = clean_ine_data(raw_ine)
 
-    print("Cleaned INE dataset preview:")
-    print(clean_ine.head())
-    print("\nRows:", len(clean_ine))
-    print("Columns:", list(clean_ine.columns))
+    plot = (
+        ggplot(clean_ine, aes(x='region', y='value', fill='dwelling'))
+        + geom_bar(stat='identity', position=position_dodge())
+        + labs(
+            title='Housing Price Index by Region (2025)',
+            x='Region',
+            y='Value',
+            fill='Dwelling Type'
+        )
+        + theme(
+            axis_text_x=element_text(rotation=90, hjust=1),
+            figure_size=(12, 6)
+        )
+    ).show()
 
-
-if __name__ == "__main__":
-    main()
+    if __name__ == "__main__":
+        main()
