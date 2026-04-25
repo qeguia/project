@@ -2,9 +2,9 @@ import pyfiglet
 
 def print_banner():
     # Get the version from the file
-    version = "v1.1.1"
+    version = "1.1.1"
     # Create the banner text
-    banner = pyfiglet.figlet_format("Housing Affordability " + version, font="small")
+    banner = pyfiglet.figlet_format(f"Housing Affordability v{version}", font="small")
 
     # Print the header with a border of special characters
     print("#" * 75)
