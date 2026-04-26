@@ -132,7 +132,7 @@ ggplot(clean_ine, aes(x='region', y='value', fill='dwelling'))
 ```
 ---
 
-## 🖼️ Example Output
+## Example Output
 
 ADD SCREENSHOTS HERE
 
