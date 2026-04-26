@@ -142,13 +142,12 @@ ADD SCREENSHOTS HERE
 
 The project includes a scoring function to evaluate country performance:
 
-S_i = \alpha P_i + (1 - \alpha) \frac{A_i}{\max(A)}
+S_i = α·P_i + (1 − α)·(A_i / max(A))
 
 Where:
-
-* ( P_i ): probability of outperforming other countries
-* ( A_i ): risk-adjusted return
-* ( \alpha ): weighting parameter (default = 0.7)
+- P_i: probability of outperforming other countries  
+- A_i: risk-adjusted return  
+- α: weighting parameter (default = 0.7)
 
 ### Example:
 
