@@ -2,7 +2,9 @@ import sys
 
 from main_eurostat import main as run_eurostat
 from main_ine import main as run_ine
+from mainstats import main as run_stats
 from banner import print_banner
+
 
 def main():
     """Run the project from the command line.
@@ -29,6 +31,8 @@ def main():
         run_eurostat()
     elif source == "ine":
         run_ine()
+    elif source == "stats":              
+        run_stats()
     else:
         print("Invalid option. Use 'eurostat' or 'ine'.")
         sys.exit(1)
