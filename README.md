@@ -143,8 +143,9 @@ print(scores)
 
 ---
 
-## 📁 Project Structure
+## Project Structure
 
+```
 project/
 │── src/
   │──  analysis/
@@ -169,6 +170,7 @@ project/
 │── README.md
 │── environment.yml
 │── setup.py
+```
 
 ---
 
