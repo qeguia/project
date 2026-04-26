@@ -1,17 +1,224 @@
-# Housing Affordability in Europe
-Computer Programming II and Probability
+# Housing Affordability Analysis in Europe
 
-README structure:
-- Project title
-- Short description of what your project does
-- Installation instructions
-- Usage examples/Quick start
-- Contributing guidelines, license and citation (if applicable)
+---
 
-Things to consider:
-- We are using Sphinx for automatic documentation.
-- Would be good to have several branches and a branch merge
-- Commits from multiple developers, not just one
-- We need to use project versioning
-- Test Driven Development, meaningful tests
-- Example of README: [this project](https://github.com/openmm/openmm-torch).
+## Description
+
+This project analyzes housing affordability across European countries using real-world data from:
+
+* **Eurostat API** (European data)
+* **INE API** (Spanish national data)
+
+The objective is to understand how housing prices evolve and compare affordability between countries and regions using data science and statistical methods.
+
+The project integrates:
+
+* Data collection from APIs
+* Data cleaning and transformation
+* Comparative analysis
+* Visualisation
+* A statistical scoring model
+
+---
+
+## Key Features:
+
+* Real-time data from APIs
+* Data cleaning and preprocessing pipelines
+* Country comparison
+* Spain vs EU average analysis
+* Data visualisation (trend plots and bar charts)
+* Statistical scoring model
+* Command-line interface (CLI)
+* Test Driven Development (TDD)
+
+---
+
+## Installation
+
+### 1. Clone the repository
+
+git clone https://github.com/qeguia/project.git
+cd project
+
+### 2. Create the environment using Conda
+
+conda env create -f environment.yml
+
+### 3. Activate the environment
+
+conda activate project
+
+---
+
+## Usage
+
+The project is executed from the command line.
+
+### Eurostat analysis:
+
+python main_eurostat.py
+
+### Country comparison:
+
+python main_eurostat.py --country1 ES --country2 PT
+
+### INE analysis (Spain regions):
+
+python main_ine.py
+
+---
+
+## Data Pipeline
+
+API → Raw Data → Cleaning → Transformation → Analysis → Visualization
+
+### Example pipeline:
+
+raw = load_eurostat_data()
+clean = clean_eurostat_data(raw)
+df_long = prepare_hpi_long(clean)
+
+---
+
+## Analysis
+
+### Spain vs EU
+
+df_plot = build_spain_vs_eu_dataset(eurostat_long)
+
+### Country comparison
+
+df_plot = build_country_comparison_dataset(
+    eurostat_long,
+    "ES",
+    "PT"
+)
+
+
+---
+
+## Visualization
+
+### Example plot
+
+p = plot_country_comparison(df_plot, "ES", "PT")
+p.show()
+
+### INE regional analysis
+
+ggplot(clean_ine, aes(x='region', y='value', fill='dwelling'))
+
+---
+
+## Example Output
+
+ADD SCREENSHOT
+
+Example:
+
+---
+
+## Statistical Model
+
+The project includes a scoring function to evaluate country performance:
+
+S_i = \alpha P_i + (1 - \alpha) \frac{A_i}{\max(A)}
+
+Where:
+
+* (P_i): probability of outperforming other countries
+* (A_i): risk-adjusted return
+* (\alpha): weighting parameter (default = 0.7)
+
+### Example:
+
+from mainstats import compute_final_scores
+
+P = [0.6, 0.7, 0.8]
+A = [100, 120, 90]
+
+scores = compute_final_scores(P, A)
+print(scores)
+
+---
+
+## 📁 Project Structure
+
+project/
+│── src/
+  │──  analysis/
+    │── __init__.py
+    │── analysis.py
+  │── data_cleaning/
+    │── __init__.py
+    │── cleaning.py
+  │──  plot/
+    │── main.py
+    │── main_eurostat.py
+    │── main_ine.py
+    │── mainstats.py
+    │── banner.py  
+│── tests/
+  │── __init__.py
+  │── test_core.py
+  │── test_edge_cases.py
+  │── test_imports.py
+│── docs/
+│── .gitignore
+│── README.md
+│── environment.yml
+│── setup.py
+
+---
+
+## Testing
+
+Run all tests:
+
+pytest
+
+Tests cover:
+
+* Data cleaning
+* Analysis functions
+* Error handling
+* Edge cases
+
+---
+
+## Technologies:
+
+* Python
+* Pandas
+* NumPy
+* Plotnine / Matplotlib
+* Eurostat API
+* INE API (ineapy)
+* Pytest
+* Sphinx (documentation)
+
+---
+
+## Contributing
+
+* Use feature branches
+* Write clear commit messages
+* Open pull requests
+
+---
+
+## Versioning
+
+Git is used with multiple branches for:
+
+* Feature development
+* Testing
+* Integration
+
+---
+
+## License
+
+Academic project for **Computer Programming II and Probability**.
+
