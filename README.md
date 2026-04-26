@@ -2,9 +2,9 @@
 
 ---
 
-## Description
+## Overview
 
-This project analyses housing affordability across European countries using real-world data from:
+This project performs an applied statistical analysis of housing affordability across European countries using official public data sources. The analysis integrates data engineering, statistical modelling, and visualization to explore how housing prices evolve across countries and regions.
 
 * **Eurostat API** (European data)
 * **INE API** (Spanish national data)
@@ -12,25 +12,11 @@ This project analyses housing affordability across European countries using real
 The objective is to understand how housing prices evolve and compare affordability between countries and regions using data science and statistical methods.
 
 The project integrates:
-
-* Data collection from APIs
-* Data cleaning and transformation
-* Comparative analysis
-* Visualisation
-* A statistical scoring model
-
----
-
-## Key Features:
-
-* Real-time data from APIs
-* Data cleaning and preprocessing pipelines
-* Country comparison (e.g. Spain vs Portugal)
-* Spain vs EU average analysis
-* Data visualisation (trend plots and bar charts)
-* Statistical scoring model
-* Command-line interface (CLI)
-* Test Driven Development (TDD)
+- Data collection from APIs (Eurostat and INE)
+- Data cleaning and transformation
+- Statistical analysis and comparison
+- Visualization of trends and regional differences
+- A scoring model for evaluating relative performance
 
 ---
 
@@ -57,105 +43,87 @@ conda activate project
 ---
 
 ## Usage
+This project follows a `src/`-based structure.  
+All commands must be executed from inside the `src` directory to ensure imports work correctly.
 
-The project is executed from the command line.
+```bash
+cd src
+```
+
+From there, run the project using the main entry point:
+```bash
+python main.py <source> [options]
+```
+
+Where ```<source>``` is one of:
+- ```eurostat``` → European data analysis
+- ```ine``` → Spain regional analysis
 
 ### Eurostat analysis:
+To produce a Spain versus Europe comparison plot.
 
 ```bash
-python main_eurostat.py
+python main.py eurostat
 ```
 
 ### Country comparison:
+To generate a comparative visualization.
 
 ```bash
-python main_eurostat.py --country1 ES --country2 PT
+python main.py eurostat --country1 ES --country2 PT
 ```
 
-### INE analysis (Spain regions)
+### INE Regional Analysis
+To produce a bar chart by region
 
 ```bash
-python main_ine.py
-```
-
----
-
-## Data Pipeline
-
-```
-API → Raw Data → Cleaning → Transformation → Analysis → Visualization
-```
-
-### Example pipeline:
-
-```python
-raw = load_eurostat_data()
-clean = clean_eurostat_data(raw)
-df_long = prepare_hpi_long(clean)
-```
-
----
-
-## Analysis
-
-### Spain vs EU:
-
-```python
-df_plot = build_spain_vs_eu_dataset(eurostat_long)
-```
-
-### Country comparison:
-
-```python
-df_plot = build_country_comparison_dataset(
-    eurostat_long,
-    "ES",
-    "PT"
-)
-```
-
----
-
-## Visualisation
-
-### Example plot
-
-```python
-p = plot_country_comparison(df_plot, "ES", "PT")
-p.show()
-```
-
-### INE regional analysis
-
-```python
-ggplot(clean_ine, aes(x='region', y='value', fill='dwelling'))
+python main.py ine
 ```
 ---
-
 ## Example Output
 
-ADD SCREENSHOTS HERE
+### Eurostat Analysis
+![Spain vs EU](images/spain_vs_eu.png)
+
+### Country Comparison
+![Country Comparison](images/comparison.png)
+
+### INE Regional Analysis
+![INE Regions](images/model_equation.png)
 
 ---
 
 ## Statistical Model
 
-The project includes a scoring function to evaluate country performance:
+The project includes a scoring function to evaluate the relative performance of countries in terms of housing affordability.
 
-S_i = α·P_i + (1 − α)·(A_i / max(A))
+The score for each country \( i \) is defined as:
 
-Where:
-- P_i: probability of outperforming other countries  
-- A_i: risk-adjusted return  
-- α: weighting parameter (default = 0.7)
+$$
+S_i = \alpha P_i + (1 - \alpha)\frac{A_i}{\max(A)}
+$$
 
-### Example:
+### Where:
+
+- **Pᵢ**: Probability that country *i* outperforms others  
+- **Aᵢ**: Risk-adjusted return (or performance metric)  
+- **α ∈ [0,1]**: Weighting parameter controlling the importance of each component  
+
+### Interpretation
+
+- **Pᵢ** captures relative performance in probabilistic terms  
+- **Aᵢ / max(A)** normalizes performance to ensure comparability across countries  
+- **α** balances probability-based vs magnitude-based evaluation  
+
+By default, **α = 0.7**, placing more emphasis on probabilistic performance.
+
+### Example
 
 ```python
 from mainstats import compute_final_scores
 
-P = [0.6, 0.7, 0.8]
-A = [100, 120, 90]
+P = [0.6, 0.7, 0.8]   # Probabilities
+A = [100, 120, 90]    # Risk-adjusted values
 
 scores = compute_final_scores(P, A)
 print(scores)
@@ -168,28 +136,21 @@ print(scores)
 ```
 project/
 │── src/
-    │──  analysis/
-        │── __init__.py
-        │── analysis.py
-    │── data_cleaning/
-        │── __init__.py
-        │── cleaning.py
-    │──  plot/
-        │── main.py
-        │── main_eurostat.py
-        │── main_ine.py
-        │── mainstats.py
-        │── banner.py
+│   ├── main.py              # Entry point (DO NOT bypass)
+│   ├── main_eurostat.py     # Eurostat pipeline
+│   ├── main_ine.py          # INE pipeline
+│   ├── mainstats.py         # Statistical model
+│   ├── banner.py 
+│   ├── analysis/
+│   ├── data_cleaning/
+│   └── plot/
+│
+│── images/
 │── tests/
-    │── __init__.py
-    │── test_core.py
-    │── test_edge_cases.py
-    │── test_imports.py
 │── docs/
-│── .gitignore
-│── README.md
 │── environment.yml
 │── setup.py
+│── README.md
 ```
 
 ---
@@ -199,7 +160,7 @@ project/
 Run all tests:
 
 ```bash
-pytest
+pytest -v
 ```
 
 Tests cover:
@@ -226,9 +187,11 @@ Tests cover:
 
 ## Contributing:
 
-* Use feature branches
-* Write clear commit messages
-* Open pull requests
+This is an academic project, but contributions should follow basic software practices:
+- Use feature branches
+- Write clear commit messages
+- Ensure code is tested before merging
+- Maintain modular and readable code
 
 ---
 
@@ -244,5 +207,9 @@ Git is used with multiple branches for:
 
 ## License:
 
-Academic project for **Computer Programming II and Probability**.
+This project is intended for academic use within:
+- Computer Programming II
+- Probability and Statistics
+Both subjects taken at IE University.
+No formal license is currently defined.
 
