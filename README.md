@@ -43,8 +43,9 @@ conda activate project
 ---
 
 ## Usage
-This project follows a `src/`-based structure.  
-All commands must be executed from inside the `src` directory to ensure imports work correctly.
+This project uses a `src/`-based structure. 
+The project is executed through a unified command-line interface that dispatches execution depending on the selected data source.
+To ensure imports work correctly, all commands must be executed from inside the `src` directory:
 
 ```bash
 cd src
@@ -95,7 +96,7 @@ python main.py ine
 
 ## Statistical Model
 
-The project includes a scoring function to evaluate the relative performance of countries in terms of housing affordability.
+The project includes a scoring function to evaluate the relative performance of countries in terms of housing affordability. This formulation combines probabilistic dominance with magnitude-based performance, providing a balanced measure of relative housing affordability.
 
 The score for each country \( i \) is defined as:
 
@@ -105,7 +106,7 @@ $$
 
 ### Where:
 
-- **Pᵢ**: Probability that country *i* outperforms others  
+- **Pᵢ** is estimated empirically from pairwise comparisons between countries based on observed data.
 - **Aᵢ**: Risk-adjusted return (or performance metric)  
 - **α ∈ [0,1]**: Weighting parameter controlling the importance of each component  
 
@@ -210,6 +211,6 @@ Git is used with multiple branches for:
 This project is intended for academic use within:
 - Computer Programming II
 - Probability and Statistics
-Both subjects taken at IE University.
-No formal license is currently defined.
+
+No formal license has been defined.
 
