@@ -29,13 +29,13 @@ git clone https://github.com/qeguia/project.git
 cd project
 ```
 
-### 2. Create the environemnt using the .yml file
+### 2. Create the environment using the .yml file
 
 ```bash
 conda env create -f environment.yml
 ```
 
-### 3. Activate the environemnt
+### 3. Activate the environment
 ```bash
 conda activate project
 ```
@@ -59,16 +59,18 @@ python main.py <source> [options]
 Where ```<source>``` is one of:
 - ```eurostat``` → European data analysis
 - ```ine``` → Spain regional analysis
+- ```stats```→ Statistical scoring model
+  
+Note: the `stats` mode requires a country name as a positional argument.
 
 ### Eurostat analysis:
-To produce a Spain versus Europe comparison plot.
+#### Spain vs EU average:
 
 ```bash
 python main.py eurostat
 ```
 
-### Country comparison:
-To generate a comparative visualization.
+#### Country comparison:
 
 ```bash
 python main.py eurostat --country1 ES --country2 PT
@@ -80,8 +82,27 @@ To produce a bar chart by region
 ```bash
 python main.py ine
 ```
+
+### Statistical Model
+Compute the score for a specific country:
+
+```bash
+python main.py stats Spain
+```
+
+With custom weighting parameter:
+```bash
+python main.py stats Spain --alpha 0.5
+```
+Available countries:
+- Spain
+- France
+- Germany
+- Hungary
+
+
 ---
-## Example Output
+## Output Example
 
 ### Eurostat Analysis
 ![Spain vs EU](images/spain_vs_eu.png)
@@ -92,43 +113,48 @@ python main.py ine
 ### INE Regional Analysis
 ![INE Regions](images/model_equation.png)
 
+### Statistical Model Output
+![Statistical Moded](images/stats.png)
+
 ---
 
 ## Statistical Model
 
-The project includes a scoring function to evaluate the relative performance of countries in terms of housing affordability. This formulation combines probabilistic dominance with magnitude-based performance, providing a balanced measure of relative housing affordability.
+The project includes a scoring model to compare countries in terms of housing affordability performance. The values of ´P_i´ and ´A_i´ are derived from the statistical analysis described in the report.
 
-The score for each country \( i \) is defined as:
+### Model Definition
+
+Each country is characterized by two quantities:
+
+- `P_i`: probability that the country outperforms others  
+- `A_i`: performance indicator derived from the data  
+
+Since `A_i` may not be directly comparable across countries, it is normalized:
 
 $$
-S_i = \alpha P_i + (1 - \alpha)\frac{A_i}{\max(A)}
+A_i^{norm} = \frac{A_i}{\max(A)}
 $$
 
-### Where:
+The final score is defined as:
 
-- **Pᵢ** is estimated empirically from pairwise comparisons between countries based on observed data.
-- **Aᵢ**: Risk-adjusted return (or performance metric)  
-- **α ∈ [0,1]**: Weighting parameter controlling the importance of each component  
+$$
+S_i = \alpha P_i + (1 - \alpha) A_i^{norm}
+$$
+
+where `alpha` ∈ [0, 1] is a weighting parameter controlling the trade-off between both components.
 
 ### Interpretation
 
-- **Pᵢ** captures relative performance in probabilistic terms  
-- **Aᵢ / max(A)** normalizes performance to ensure comparability across countries  
-- **α** balances probability-based vs magnitude-based evaluation  
+| Component     | Meaning |
+|--------------|--------|
+| `P_i`        | Probability that a country outperforms others |
+| `A_i_norm`   | Normalized performance magnitude |
+| `alpha`      | Weight controlling the balance between both components |
 
-By default, **α = 0.7**, placing more emphasis on probabilistic performance.
+**Effect of alpha:**
+- `alpha → 1`: prioritizes probability
+- `alpha → 0`: prioritizes performance magnitude
 
-### Example
-
-```python
-from mainstats import compute_final_scores
-
-P = [0.6, 0.7, 0.8]   # Probabilities
-A = [100, 120, 90]    # Risk-adjusted values
-
-scores = compute_final_scores(P, A)
-print(scores)
-```
 
 ---
 
@@ -231,7 +257,7 @@ index.html
 * Python
 * Pandas
 * NumPy
-* Plotnine / Matplotlib
+* Plotnine
 * Eurostat API
 * INE API (ineapy)
 * Pytest
